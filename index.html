@@ -10,7 +10,7 @@
       margin: 20px;
     }
     .container {
-      max-width: 500px;
+      max-width: 600px;
       margin: auto;
       text-align: center;
     }
@@ -23,6 +23,12 @@
     .result {
       font-size: 18px;
       margin-top: 10px;
+      text-align: left;
+    }
+    .visual {
+      font-size: 16px;
+      margin-top: 15px;
+      color: #555;
     }
   </style>
 </head>
@@ -35,6 +41,7 @@
       Sum (Compound Number): <span id="compoundResult">0</span><br>
       Single-Digit Destiny Number: <span id="destinyResult">0</span>
     </div>
+    <div class="visual" id="visualSteps"></div>
   </div>
 
   <script>
@@ -49,18 +56,27 @@
     function calculateNumerology() {
       const input = document.getElementById("nameInput").value.toUpperCase();
       let sum = 0;
+      let steps = [];
 
-      // Calculate the sum (compound number)
+      // Calculate the sum (compound number) and build the visual steps
       for (const char of input) {
         if (numerologyChart[char]) {
-          sum += numerologyChart[char]; // Add value for letters
+          const value = numerologyChart[char];
+          sum += value;
+          steps.push(`${char} (${value})`);
         } else if (!isNaN(char) && char !== " ") {
-          sum += parseInt(char); // Add numeric value for numbers
+          const value = parseInt(char);
+          sum += value;
+          steps.push(`${char} (${value})`);
         }
       }
-      
+
       // Display the sum
       document.getElementById("compoundResult").textContent = sum;
+
+      // Display the visual addition steps
+      document.getElementById("visualSteps").innerHTML = 
+        steps.length > 0 ? `Steps: ${steps.join(" + ")} = ${sum}` : "Steps: ";
 
       // Reduce to a single-digit destiny number
       let destinyNumber = sum;
