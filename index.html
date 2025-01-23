@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Numerology Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      text-align: center;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+    .result {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Numerology Calculator</h1>
+    <label for="nameInput">Enter a name or string (letters and numbers):</label>
+    <input type="text" id="nameInput" placeholder="Type here..." oninput="calculateNumerology()">
+    <div class="result">
+      Sum (Compound Number): <span id="compoundResult">0</span><br>
+      Single-Digit Destiny Number: <span id="destinyResult">0</span>
+    </div>
+  </div>
+
+  <script>
+    const numerologyChart = {
+      A: 1, B: 2, C: 3, D: 4, E: 5, F: 8,
+      G: 3, H: 5, I: 1, J: 1, K: 2, L: 3,
+      M: 4, N: 5, O: 7, P: 8, Q: 1, R: 2,
+      S: 3, T: 4, U: 6, V: 6, W: 6, X: 5,
+      Y: 1, Z: 7
+    };
+
+    function calculateNumerology() {
+      const input = document.getElementById("nameInput").value.toUpperCase();
+      let sum = 0;
+
+      // Calculate the sum (compound number)
+      for (const char of input) {
+        if (numerologyChart[char]) {
+          sum += numerologyChart[char]; // Add value for letters
+        } else if (!isNaN(char) && char !== " ") {
+          sum += parseInt(char); // Add numeric value for numbers
+        }
+      }
+      
+      // Display the sum
+      document.getElementById("compoundResult").textContent = sum;
+
+      // Reduce to a single-digit destiny number
+      let destinyNumber = sum;
+      while (destinyNumber > 9) {
+        destinyNumber = String(destinyNumber)
+          .split("")
+          .reduce((acc, num) => acc + parseInt(num), 0);
+      }
+
+      // Display the destiny number
+      document.getElementById("destinyResult").textContent = destinyNumber;
+    }
+  </script>
+</body>
+</html>
